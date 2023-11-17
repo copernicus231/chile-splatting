@@ -1,24 +1,34 @@
-import './style.css'
-import typescriptLogo from './typescript.svg'
-import viteLogo from '/vite.svg'
-import { setupCounter } from './counter.ts'
+import * as SPLAT from "gsplat";
 
-document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
-  <div>
-    <a href="https://vitejs.dev" target="_blank">
-      <img src="${viteLogo}" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://www.typescriptlang.org/" target="_blank">
-      <img src="${typescriptLogo}" class="logo vanilla" alt="TypeScript logo" />
-    </a>
-    <h1>Vite + TypeScript</h1>
-    <div class="card">
-      <button id="counter" type="button"></button>
-    </div>
-    <p class="read-the-docs">
-      Click on the Vite and TypeScript logos to learn more
-    </p>
-  </div>
-`
+const canvas = document.getElementById("canvas") as HTMLCanvasElement;
+const progressDialog = document.getElementById("progress-dialog") as HTMLDialogElement;
+const progressIndicator = document.getElementById("progress-indicator") as HTMLProgressElement;
 
-setupCounter(document.querySelector<HTMLButtonElement>('#counter')!)
+const renderer = new SPLAT.WebGLRenderer(canvas);
+const scene = new SPLAT.Scene();
+const camera = new SPLAT.Camera();
+const controls = new SPLAT.OrbitControls(camera, canvas);
+
+async function main() {
+    const url = "molino-7k.splat";
+    await SPLAT.Loader.LoadAsync(url, scene, (progress) => (progressIndicator.value = progress * 100));
+    progressDialog.close();
+
+    const handleResize = () => {
+        renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+    };
+
+    const frame = () => {
+        controls.update();
+        renderer.render(scene, camera);
+
+        requestAnimationFrame(frame);
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+
+    requestAnimationFrame(frame);
+}
+
+main();
