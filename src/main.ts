@@ -24,7 +24,13 @@ async function main() {
 
         requestAnimationFrame(frame);
     };
-
+    const canvasResize = () => {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+    window.addEventListener('load', canvasResize);
+    window.addEventListener('resize', canvasResize);
+    canvasResize();
     handleResize();
     window.addEventListener("resize", handleResize);
 
