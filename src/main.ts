@@ -14,6 +14,16 @@ async function main() {
     await SPLAT.Loader.LoadAsync(url, scene, (progress) => (progressIndicator.value = progress * 100));
     progressDialog.close();
 
+    // Transform it
+    const rotation = new SPLAT.Vector3(-0.9,-0.4 , 0);
+    const translation = new SPLAT.Vector3(-2, -2, -3);
+    const scaling = new SPLAT.Vector3(1, 1, 1);
+    const limitSize = 4.0;
+    scene.rotate(SPLAT.Quaternion.FromEuler(rotation));
+    scene.translate(translation);
+    scene.scale(scaling);
+    scene.limitBox(-limitSize, limitSize, -limitSize, limitSize, -limitSize, limitSize);
+
     const handleResize = () => {
         renderer.setSize(canvas.clientWidth, canvas.clientHeight);
     };
