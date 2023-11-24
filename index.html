@@ -4,7 +4,7 @@
         <meta charset="UTF-8" />
         <link rel="stylesheet" href="style.css" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>gsplat.js - Viewer Demo</title>
+        <title>Chile Splatting</title>
     </head>
     <body>
         <div id="progress-container">
@@ -16,7 +16,16 @@
             </dialog>
         </div>
 
-        <canvas id="canvas" width="1920" height="1080"></canvas>
+        <canvas id="canvas"></canvas>
         <script type="module" src="/src/main.ts"></script>
+        <script>
+            function resizeCanvas() {
+                var canvas = document.getElementById('canvas');
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+            window.addEventListener('load', resizeCanvas);
+            window.addEventListener('resize', resizeCanvas);
+        </script>
     </body>
 </html>
